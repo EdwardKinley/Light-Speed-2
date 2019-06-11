@@ -4,8 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   score = 0;
   best = 0;
-  time = 30;
+  time = 5;
   colours = ['red', 'yellow', 'green', 'blue', 'magenta', 'darkorange'];
+  timer = 0;
+  end = 0;
+  currentLight = 0;
 
   addLightAndScoreZone();
   fillLightZone();
@@ -92,12 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
     timeLabel.textContent = 'Time';
     timeSlot.appendChild(timeLabel);
 
-    const bestLabel = document.createElement('div');
-    bestLabel.id = 'bestLabel';
-    bestLabel.textContent = 'Best';
-    bestSlot.appendChild(bestLabel);
+    // const bestLabel = document.createElement('div');
+    // bestLabel.id = 'bestLabel';
+    // bestLabel.textContent = 'Best';
+    // bestSlot.appendChild(bestLabel);
 
     const newButton = document.createElement('button');
+    newButton.id = 'newButton';
     newButton.textContent = 'Start';
     newSlot.appendChild(newButton);
     newButton.addEventListener('click', () => {
@@ -109,10 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreValue.textContent = 0;
     scoreSlot.appendChild(scoreValue);
 
-    const bestValue = document.createElement('div');
-    bestValue.id = 'bestValue';
-    bestValue.textContent = 0;
-    bestSlot.appendChild(bestValue);
+    // const bestValue = document.createElement('div');
+    // bestValue.id = 'bestValue';
+    // bestValue.textContent = 0;
+    // bestSlot.appendChild(bestValue);
 
     const timeValue = document.createElement('div');
     timeValue.id = 'timeValue';
@@ -124,12 +128,18 @@ document.addEventListener('DOMContentLoaded', () => {
     for (i=0; i<4; i++) {
       for (j=0; j<5; j++) {
         document.querySelector(`#disc${i}${j}`).style.backgroundColor = 'white';
-        score = 0;
-        time = 30;
       }
     }
+    clearInterval(timer);
+    clearTimeout(end);
+    score = 0;
+    time = 5;
+    document.querySelector('#scoreValue').textContent = 0;
+    document.querySelector('#newButton').textContent = 'New';
+    document.querySelector('#timeValue').textContent = `${time}s`;
     turnOnRandomLight();
-    startTimer();
+    timer = setInterval(reduceTime, 1000);
+    end = setTimeout(endGame, time * 1000);
   }
 
   function turnOnRandomLight() {
@@ -139,23 +149,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomColourIndex = Math.floor(Math.random() * colours.length);
 
     document.querySelector(`#disc${randomI}${randomJ}`).style.backgroundColor = colours[randomColourIndex];
+    document.querySelector(`#disc${randomI}${randomJ}`).addEventListener('click', makeValidLight);
+    currentLight = document.querySelector(`#disc${randomI}${randomJ}`);
   }
-
-  function startTimer() {
-    for (i=1; i<30; i++) {
-      setTimeout(reduceTime, 1000 * i);
-    }
-    setTimeout(endGame, 30000);
-  }
+  //
+  // function startTimer() {
+  //   // for (i=1; i<30; i++) {
+  //   //   setTimeout(reduceTime, 1000 * i);
+  //   // }
+  //   setInterval(reduceTime, 1000);
+  // }
 
   function reduceTime() {
-    time --;
-    document.querySelector('#timeValue').textContent = `${time}s`;
+    if (time > 0) {
+      time --;
+      document.querySelector('#timeValue').textContent = `${time}s`;
+    }
   }
 
   function endGame() {
-    document.querySelector('#timeValue').textContent = '0s';
-    console.log('end!');
+    clearInterval(timer);
+    clearTimeout(end);
+    currentLight.removeEventListener('click', makeValidLight);
+    currentLight.style.backgroundColor = 'white';
+    // document.querySelector('#timeValue').textContent = '0s';
+  }
+
+  function makeValidLight() {
+    this.removeEventListener('click', makeValidLight);
+    this.style.backgroundColor = 'white';
+    score ++;
+    document.querySelector('#scoreValue').textContent ++;
+    turnOnRandomLight();
   }
 
 
