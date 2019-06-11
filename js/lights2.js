@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
   score = 0;
   best = 0;
   time = 30;
+  colours = ['red', 'yellow', 'green', 'blue', 'magenta', 'darkorange'];
 
   addLightAndScoreZone();
   fillLightZone();
   fillScoreZone();
+
 
   function addLightAndScoreZone() {
     const lightAndScoreZone = document.createElement('div');
@@ -22,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreZone = document.createElement('div');
     scoreZone.className = 'scoreZone';
     lightAndScoreZone.appendChild(scoreZone);
-
   }
 
   function fillLightZone() {
@@ -97,8 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     bestSlot.appendChild(bestLabel);
 
     const newButton = document.createElement('button');
-    newButton.textContent = 'New';
+    newButton.textContent = 'Start';
     newSlot.appendChild(newButton);
+    newButton.addEventListener('click', () => {
+      startGame();
+    })
 
     const scoreValue = document.createElement('div');
     scoreValue.id = 'scoreValue';
@@ -116,7 +120,43 @@ document.addEventListener('DOMContentLoaded', () => {
     timeSlot.appendChild(timeValue);
   }
 
+  function startGame() {
+    for (i=0; i<4; i++) {
+      for (j=0; j<5; j++) {
+        document.querySelector(`#disc${i}${j}`).style.backgroundColor = 'white';
+        score = 0;
+        time = 30;
+      }
+    }
+    turnOnRandomLight();
+    startTimer();
+  }
 
+  function turnOnRandomLight() {
+
+    const randomI = Math.floor(Math.random() * 4);
+    const randomJ = Math.floor(Math.random() * 5);
+    const randomColourIndex = Math.floor(Math.random() * colours.length);
+
+    document.querySelector(`#disc${randomI}${randomJ}`).style.backgroundColor = colours[randomColourIndex];
+  }
+
+  function startTimer() {
+    for (i=1; i<30; i++) {
+      setTimeout(reduceTime, 1000 * i);
+    }
+    setTimeout(endGame, 30000);
+  }
+
+  function reduceTime() {
+    time --;
+    document.querySelector('#timeValue').textContent = `${time}s`;
+  }
+
+  function endGame() {
+    document.querySelector('#timeValue').textContent = '0s';
+    console.log('end!');
+  }
 
 
 })
