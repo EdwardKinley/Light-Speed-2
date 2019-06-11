@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   score = 0;
   best = 0;
-  time = 5;
-  colours = ['red', 'yellow', 'green', 'blue', 'magenta', 'darkorange'];
+  time = 30;
+  colours = ['red', 'yellow', 'lime', 'blue', 'hotpink', 'darkorange', 'cyan'];
   timer = 0;
   end = 0;
   currentLight = 0;
@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
     timeLabel.textContent = 'Time';
     timeSlot.appendChild(timeLabel);
 
-    // const bestLabel = document.createElement('div');
-    // bestLabel.id = 'bestLabel';
-    // bestLabel.textContent = 'Best';
-    // bestSlot.appendChild(bestLabel);
+    const bestLabel = document.createElement('div');
+    bestLabel.id = 'bestLabel';
+    bestLabel.textContent = 'Best';
+    bestSlot.appendChild(bestLabel);
 
     const newButton = document.createElement('button');
     newButton.id = 'newButton';
@@ -113,10 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreValue.textContent = 0;
     scoreSlot.appendChild(scoreValue);
 
-    // const bestValue = document.createElement('div');
-    // bestValue.id = 'bestValue';
-    // bestValue.textContent = 0;
-    // bestSlot.appendChild(bestValue);
+    const bestValue = document.createElement('div');
+    bestValue.id = 'bestValue';
+    bestValue.textContent = 0;
+    bestSlot.appendChild(bestValue);
 
     const timeValue = document.createElement('div');
     timeValue.id = 'timeValue';
@@ -133,10 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(timer);
     clearTimeout(end);
     score = 0;
-    time = 5;
+    time = 30;
     document.querySelector('#scoreValue').textContent = 0;
     document.querySelector('#newButton').textContent = 'New';
     document.querySelector('#timeValue').textContent = `${time}s`;
+    document.querySelector('#bestValue').style.color = 'silver';
     turnOnRandomLight();
     timer = setInterval(reduceTime, 1000);
     end = setTimeout(endGame, time * 1000);
@@ -152,13 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector(`#disc${randomI}${randomJ}`).addEventListener('click', makeValidLight);
     currentLight = document.querySelector(`#disc${randomI}${randomJ}`);
   }
-  //
-  // function startTimer() {
-  //   // for (i=1; i<30; i++) {
-  //   //   setTimeout(reduceTime, 1000 * i);
-  //   // }
-  //   setInterval(reduceTime, 1000);
-  // }
 
   function reduceTime() {
     if (time > 0) {
@@ -170,9 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function endGame() {
     clearInterval(timer);
     clearTimeout(end);
+    document.querySelector('#timeValue').textContent = '0s';
     currentLight.removeEventListener('click', makeValidLight);
     currentLight.style.backgroundColor = 'white';
-    // document.querySelector('#timeValue').textContent = '0s';
+    if (score > best) {
+      best = score;
+      document.querySelector('#bestValue').textContent = best;
+      document.querySelector('#bestValue').style.color = 'gold';
+    }
   }
 
   function makeValidLight() {
