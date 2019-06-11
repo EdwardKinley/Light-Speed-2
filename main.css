@@ -1,0 +1,39 @@
+body {
+  font-family: sans-serif;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 96vh;
+  text-align: center;
+}
+
+h1 {
+  height: 5vh;
+  margin: 0;
+}
+
+h2 {
+  height: 5vh;
+}
+
+.lightAndScoreZone {
+  height: 80vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.lightZone {
+  height: 100%;
+  width: 70vw;
+  background-color: red;
+}
+
+.scoreZone {
+  height: 100%;
+  width: 25vw;
+  background-color: yellow;
+}
