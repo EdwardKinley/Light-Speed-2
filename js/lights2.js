@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
       row.className = 'row';
       row.id = `row${i}`;
       lightZone.appendChild(row);
-      // const colours = ['red', 'yellow', 'green', 'blue', 'pink'];
-      // row.style.backgroundColor = colours[i];
       addSpaces(row);
     }
   }
@@ -47,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       space.className = 'row';
       space.id = `space${i}${j}`;
       row.appendChild(space);
-      // const colours = ['red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'pink'];
-      // space.style.backgroundColor = colours[i+j];
       addDisc(space, i, j);
     }
   }
@@ -65,25 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreSlot.className = 'scoreZoneSlot';
     scoreSlot.id = 'scoreSlot'
     scoreZone.appendChild(scoreSlot);
-    // scoreSlot.style.backgroundColor = 'red';
 
     const bestSlot = document.createElement('div');
     bestSlot.className = 'scoreZoneSlot';
     bestSlot.id = 'bestSlot'
     scoreZone.appendChild(bestSlot);
-    // bestSlot.style.backgroundColor = 'yellow';
 
     const newSlot = document.createElement('div');
     newSlot.className = 'scoreZoneSlot';
     newSlot.id = 'newSlot'
     scoreZone.appendChild(newSlot);
-    // newSlot.style.backgroundColor = 'green';
 
     const timeSlot = document.createElement('div');
     timeSlot.className = 'scoreZoneSlot';
     timeSlot.id = 'timeSlot'
     scoreZone.appendChild(timeSlot);
-    // timeSlot.style.backgroundColor = 'blue';
 
     const scoreLabel = document.createElement('div');
     scoreLabel.id = 'scoreLabel';
@@ -181,6 +173,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#scoreValue').textContent ++;
     turnOnRandomLight();
   }
-
 
 })
